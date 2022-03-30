@@ -1,0 +1,107 @@
+<%- include('../partials/head', {title: 'Carrito de compra'})%>
+    <link rel="stylesheet" href="/stylesheets/carrito.css">
+    <script src="/javascript/articleCart_front.js"></script>
+    <script src="/javascript/subtotal_front.js"></script>
+    <script src="/javascript/quantity_front.js"></script>
+    <script src="/javascript/updateQuantity_front.js"></script>
+    <script src="/javascript/total_front.js"></script>
+
+    <body>
+        <%- include('../partials/header')%>
+            <main class="contenedor">
+                <h1 class="titulo-seccion">Carrito de Compras</h1>
+                <section class="usuario-menu">
+                    <ul class="menuUser">
+                        <% if(typeof usuario != "undefined"){ %>
+                            <li>
+                                <a href="" id="loginAccess">
+                                    <i class="fas fa-user"></i>
+                                    <%= usuario.first_name %>
+                                </a>
+                                <ul class="submenuUser">
+                                    <li>
+                                        <a href="/users/profile/<%= usuario.id %>">
+                                            <hr>mi perfil</a>
+                                    </li>
+                                    <li>
+                                        <a href="/users/logout">
+                                            <hr>cerrar sesión</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <% } %>
+                    </ul>
+                </section>
+                <section>
+                    <% if (typeof message != "undefined"){%>
+                        <div class="mensaje">
+                            <h2>
+                                <%= message %>
+                            </h2>
+                            <a href="/" class="centrado"><button class="btn-border-max" > << volver a la Tienda</button></a>
+                        </div>
+                        <%}else{%>
+                            <% for (let i = 0; i < productCart.length; i++){%>
+                                <article class="containerProduct">
+                                    <div class="imgProduct">
+                                        <img src="/img/products/<%= productCart[i].products.image %>" alt="producto">
+                                    </div>
+                                    <p class="productDetail">
+                                        <%= productCart[i].products.brands.name + ' ' + productCart[i].products.varietals.name + ' ' + productCart[i].products.qualities.name + ' ' + productCart[i].products.displays.name  %>
+                                    </p>
+                                    <p class="precioProducto">
+                                        <%= '$' + productCart[i].frozen_price * productCart[i].quantity %>
+                                    </p>
+                                    <div class="productControls">
+                                        <button id='decrease' onclick="quantity(this)" value="decrease"><i class="fas fa-minus-circle"></i></button>
+                                        <p class="cantidad" id="quantity" value="">
+                                            <%= productCart[i].quantity %>
+                                        </p>
+                                        <button id='increase' onclick="quantity(this)" value="increase"><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                    <a href="/products/cart/<%= productCart[i].id %>" class="btn-eliminar">Eliminar</a>
+                                    <form id="formUpdate" action="/products/cart/update" method="POST">
+                                        <input type="number" class="non-display" name="id" value="<%= productCart[i].id %>">
+                                        <input type="number" class="non-display" name="quantity" id="value_quantity" value="<%= productCart[i].quantity %>">
+                                        <input type="number" class="non-display" name="user_id" value="<%= usuario.id %>">
+                                        <button type="submit" id="btn-agregarProd"><i class="fas fa-redo-alt"></i></button>
+                                    </form>
+
+                                </article>
+
+                                <% }%>
+
+                </section>
+                <!-- Subtotal -->
+                <% if (typeof productCart != "undefined"){%>
+                    <section class="contenedorSubtotal">
+                        <h3></h3>
+                        <article class="subtotal">
+                            <div class="left">
+                                <h2>SUBTOTAL</h2>
+                                <h3>Envío (fijo)</h3>
+                                <h3>Cupón</h3>
+                                <h2>TOTAL</h2>
+                            </div>
+                            <div class="right">
+                                <h2 id="subtotal">0</h2>
+                                <h3 id="shipping">$200</h3>
+                                <h3 id="coupon">$0</h3>
+                                <h2 id="total">000</h2>
+                            </div>
+                        </article>
+                    </section>
+                    <section class="clasebotonfi">
+                        <a class="btn-border-max" href="/">
+                            << seguir comprando</a>
+                                <form action="/products/checkout" method="POST">
+                                    <input type="number" class="non-display" name="totalCart" id="totalCart" value="">
+                                    <button class="btn-border-max">finalizar compra >></button>
+                                </form>
+                    </section>
+                    <%}}%>
+            </main>
+            <%- include('../partials/footer')%>
+    </body>
+
+    </html>

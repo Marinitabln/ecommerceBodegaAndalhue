@@ -1,0 +1,24 @@
+<%- include('../partials/head', {title: 'Iniciar sesión'})%>
+    <link rel='stylesheet' href='/stylesheets/user.css'>
+
+    <body>
+        <%- include('../partials/header')%>
+            <main>
+                <section class="contenedor">
+                    <h1 class="titulo-seccion">INICIO DE SESIÓN</h1>
+                    <div class="poesia">¿Estás preparada/o para descubrir un mundo <br>de poesía embotellada?</div>
+                </section>
+
+                <%- include('../partials/slider')%>
+
+                    <section class="log-reg contenedor">
+                        <h3 class="enunciado-menor">¿Ya estás registrada/o?</h3>
+                        <a href="./login" class="btn-border-max">accedé</a>
+                        <h3 class="enunciado-menor">Si aún no lo hiciste </h3>
+                        <a href="./register" class="btn-border-max">registrate</a>
+                    </section>
+            </main>
+            <%- include('../partials/footer')%>
+    </body>
+
+    </html>

@@ -1,0 +1,166 @@
+  /* CSS REGISTER Y LOGIN */
+  
+  .poesia {
+      font-style: italic;
+      font-size: 0.82em;
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: 0 auto;
+      font-weight: bold;
+  }
+  /* SLIDER */
+  
+  .contenedor-slider {
+      width: 100%;
+      overflow: hidden;
+      /*oculta el espacio sobrante dps de las imágenes*/
+      padding: 10px 0 50px;
+      position: relative;
+  }
+  
+  .contenedor-slider .slider {
+      width: 400%;
+      /*para que queden una al lado de la otra*/
+      display: flex;
+  }
+  
+  .contenedor-slider .slider .slide {
+      width: 15%;
+      max-width: 950px;
+      /*para cdo se vean en pantallas más grandes*/
+      margin-right: 0.7%;
+      box-shadow: 7px 7px 20px rgb(200, 200, 200);
+      /* x-y-difuminado-expansión */
+  }
+  
+  .contenedor-slider .btn-anterior,
+  .contenedor-slider .btn-siguiente {
+      display: inline-block;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+  
+  .contenedor-slider .btn-anterior {
+      left: 2%;
+  }
+  
+  .contenedor-slider .btn-siguiente {
+      right: 2%;
+  }
+  
+  .contenedor-slider .btn-anterior i,
+  .contenedor-slider .btn-siguiente i {
+      color: #fff;
+  }
+  
+  .contenedor-slider .btn-anterior i:hover,
+  .contenedor-slider .btn-siguiente i:hover {
+      color: #C4AF64;
+  }
+  
+  .log-reg {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+  }
+  
+  .formLogin {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8em;
+      width: 100%;
+      margin: 15px auto 25px;
+      font-weight: 400;
+  }
+  
+  .formLogin .labelInput {
+      width: 100%;
+      color: #3F4140;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+  }
+  
+  .formLogin .labelInput input,
+  .formLogin .labelInput select,
+  .formLogin .labelInput textarea {
+      width: 100%;
+      padding: 8px;
+      background-color: rgba(63, 65, 64, 0.1);
+      border: 0;
+      margin-top: 5px;
+  }
+  
+  .formLogin .labelInput label {
+      padding: 5px 0 2px;
+      width: 100%;
+  }
+  
+  .formLogin label a {
+      font-weight: lighter;
+      color: #C4AF64;
+      width: 100%;
+      text-decoration: none;
+      padding-left: 5px;
+  }
+  
+  .check-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+  }
+  
+  .formLogin button,
+  .formLogin a,
+  .formLogin .recordarme {
+      margin: 25px auto 0;
+  }
+  
+  .formLogin a {
+      line-height: 1.7em;
+      font-weight: 400;
+  }
+  
+  .btn-centrado {
+      margin: 0 auto;
+  }
+  
+  .errores {
+      margin-top: 10px;
+      color: #C4AF64;
+      text-align: center;
+  }
+  /* ---------------------------------------- */
+  /* MEDIA QUERY TABLET */
+  
+  @media(min-width:426px) {
+      .formLogin {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-between;
+      }
+      .formLogin .labelInput {
+          width: 48%;
+      }
+      .poesia {
+          font-size: 1.1em;
+      }
+  }
+  /* ---------------------------------------- */
+  /* MEDIA QUERY PC */
+  
+  @media(min-width:769px) {
+      .formLogin {
+          max-width: 1000px;
+      }
+      .poesia {
+          font-size: 1.2em;
+      }
+  }

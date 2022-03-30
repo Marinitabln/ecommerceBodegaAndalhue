@@ -1,0 +1,249 @@
+<%- include('../partials/head', {title: 'Detalle de producto'})%>
+    <link rel="stylesheet" href="/stylesheets/tienda.css">
+    <script src="/javascript/user_front.js"></script>
+    <script src="/javascript/quantity_front.js"></script>
+    <script src="/javascript/discount_front.js"></script>
+    <script src="/javascript/desc-info_front.js"></script>
+
+    <body>
+        <%- include('../partials/header')%>
+            <main>
+                <div class="contenedor">
+                    <!-- ENCABEZADO SECCION -->
+                    <section class="buscador-filtro-login">
+                        <div class="buscador-filtro">
+                            <form action="">
+                                <input type="search"><i class="fas fa-search"></i>
+                            </form>
+                            <img src="/img/icon-filter.svg" alt="icono-filtrar">
+                        </div>
+                        <ul class="menuUser">
+                            <% if(typeof usuario != "undefined"){ %>
+                                <li>
+                                    <a href="" id="loginAccess">
+                                        <i class="fas fa-user"></i>
+                                        <%= usuario.first_name %>
+                                    </a>
+                                    <ul class="submenuUser">
+                                        <li>
+                                            <a href="/users/profile/<%= usuario.id %>">
+                                                <hr>mi perfil</a>
+                                        </li>
+                                        <li>
+                                            <a href="/users/logout">
+                                                <hr>cerrar sesión</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li> | </li>
+                                <li>
+                                    <a href="/products/cart">
+                                        <i class="fas fa-shopping-cart"><%= ' ('+ addedToCart + ')' %></i>
+                                    </a>
+                                </li>
+                                <% } %>
+                                    <% if(typeof usuario == "undefined"){ %>
+                                        <a href="/users/loginRegister" id="loginAccess">login</a>
+                                        <% } %>
+                        </ul>
+                    </section>
+                    <div class="volver-ruta">
+                        <a href="/" class="volver">
+                            <i class="fas fa-angle-left"></i> volver
+                        </a>
+                        <div class="ruta">
+                            <ul>
+                                <a href="" id="linea">
+                                    <li>>
+                                        <%= selectedProduct.brands.name %>
+                                    </li>
+                                </a>
+                                <a href="" id="varietal">
+                                    <li>>
+                                        <%= selectedProduct.varietals.name %>
+                                    </li>
+                                </a>
+                                <a href="" id="categoria">
+                                    <li>>
+                                        <%= selectedProduct.qualities.name %>
+                                    </li>
+                                </a>
+                                <a href="" id="anio">
+                                    <li>>
+                                        <%= selectedProduct.vintage %>
+                                    </li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PRODUCTO -->
+
+                    <section class="detalle-prod">
+                        <article class="img-desc">
+                            <img src="/img/products/<%= selectedProduct.image %>" alt="vino">
+                            <p class="descuento">
+                                <% if(selectedProduct.discount != 0){ %>
+                                    <%= selectedProduct.discount + "%" %>
+                                <% } %>
+                            </p>
+                        </article>
+                        <article class="prod-items">
+                            <h6 class="categoria">
+                                <%= selectedProduct.categories.name %>
+                            </h6>
+                            <p class="descripcion">
+                                <%= selectedProduct.brands.name + ' ' + selectedProduct.varietals.name + ' ' + selectedProduct.qualities.name + ' ' + selectedProduct.vintage + ' ' + selectedProduct.displays.name  %>
+                            </p>
+                            <div class="menosMas">
+                                <button id='decrease' onclick="quantity(this)" value="decrease"><i class="fas fa-minus-circle"></i></button>
+                                <p class="cantidad" id="quantity" value="">1</p>
+                                <button id='increase' onclick="quantity(this)" value="increase"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                            <div class="precio">
+                                <h5 class="antes">
+                                    <% if(selectedProduct.discount != 0){ %>
+                                        <%= "$"+ selectedProduct.price %>
+                                            <% } %>
+                                </h5>
+                                <h5 class="ahora">
+                                    <%= '$'+ toThousand(selectedProduct.price - (selectedProduct.price * (selectedProduct.discount / 100)))+ '-' %>
+                                </h5>
+                            </div>
+                            <% if (typeof usuario == 'undefined'){ %>
+                                <a href="/users/loginRegister"><button class="btn-relleno">Agregar</button></a>
+                                <%}else{%>
+                                    <form action="/products/cart" method="POST">
+                                        <input type="number" class="non-display" name="id" value="<%= selectedProduct.id %>">
+                                        <input type="number" class="non-display" name="quantity" id="value_quantity" value="1">
+                                        <input type="number" class="non-display" name="user_id" value="<%= usuario.id %>">
+                                        <button type="submit" id="btn-agregarProd" class="btn-relleno">Agregar</button>
+                                        <%}%>
+                                    </form>
+                        </article>
+                        <!-- detalle -->
+                        <article class="detalle-info">
+                            <div class="etiq-detalle_info border-bottom">
+                                <ul>
+                                    <li>
+                                        <button id="detalle" class="visible">
+                                        Descripción
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="infoAdicional">
+                                        Información adicional
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="detalle">
+                                <h5>NOTAS DE CATA</h5>
+                                <p>
+                                    <%= selectedProduct.tasting %>
+                                </p>
+                                <h5>MARIDAJE</h5>
+                                <p>
+                                    <%= selectedProduct.pairing %>
+                                </p>
+                                <h5>TEMPERATURA</h5>
+                                <p>
+                                    <%= selectedProduct.temperatures.value + 'ºC' %>
+                                </p>
+                                <a href="<%= selectedProduct.datasheet %>" download><button class="btn-border-max">FICHA TÉCNICA</button></a>
+                            </div>
+                            <div class="info-adic non-display">
+                                <ul>
+                                    <li>
+                                        <h5>PESO</h5>
+                                        <p>8,85kg</p>
+                                    </li>
+                                    <li>
+                                        <h5>DIMENSIONES</h5>
+                                        <p>23.5 × 15.6 × 31.5 cm</p>
+                                    </li>
+                                    <li>
+                                        <h5>ENÓLOGA</h5>
+                                        <p>Mariángel Blanco</p>
+                                    </li>
+                                    <li>
+                                        <h5>REGIÓN</h5>
+                                        <p>Luján de Cuyo. Mendoza</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+
+                <!-- similares -->
+                <section class="prod-similares">
+                    <div class="contenedor">
+                        <h3 class="subtitulo-seccion">PRODUCTOS SIMILARES</h3>
+                        <div class="slider-similares">
+                            <% if (upSelling != undefined){
+                                for (var i= 0; i< upSelling.length; i++) { 
+                                    var product = upSelling[i];
+                            %>
+                                <article class="producto">
+                                    <a href="/products/detail/<%= product.id %>">
+                                        <div class="img-desc">
+                                            <img src="/img/products/<%= product.image %>" alt="vino">
+                                            <p class="descuento">
+                                                <% if(product.discount != 0){ %>
+                                                    <%= product.discount + "%" %>
+                                                        <% } %>
+                                            </p>
+                                        </div>
+                                        <div class="prod-items">
+                                            <h6 class="categoria">
+                                                <%= product.categories.name %>
+                                            </h6>
+                                            <p class="descripcion">
+                                                <%= product.brands.name + ' ' + product.varietals.name + ' ' + product.qualities.name + ' ' + product.vintage + ' ' + product.displays.name %>
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <div class="prod-items">
+                                        <div class="menosMas">
+                                            <button id='decrease' onclick="quantity(this)" value="decrease"><i class="fas fa-minus-circle"></i></button>
+                                            <p class="cantidad" id="quantity" value="">1</p>
+                                            <button id='increase' onclick="quantity(this)" value="increase"><i class="fas fa-plus-circle"></i></button>
+                                        </div>
+                                        <div class="precio">
+                                            <h5 class="antes">
+                                                <% if(product.discount != 0){ %>
+                                                    <%= "$"+ product.price %>
+                                                        <% } %>
+                                            </h5>
+                                            <h5 class="ahora">
+                                                <%= '$'+ toThousand(product.price - (product.price * (product.discount / 100))) %>
+                                            </h5>
+                                        </div>
+                                        <% if (typeof usuario == 'undefined'){ %>
+                                            <a href="/users/loginRegister"><button class="btn-relleno">Agregar</button></a>
+                                            <%}else{%>
+                                                <form action="/products/cart" method="POST">
+                                                    <input type="number" class="non-display" name="id" value="<%= product.id %>">
+                                                    <input type="number" class="non-display" name="quantity" id="value_quantity" value="1">
+                                                    <input type="number" class="non-display" name="user_id" value="<%= usuario.id %>">
+                                                    <button type="submit" id="btn-agregarProd" class="btn-relleno">Agregar</button>
+                                                    <%}%>
+                                                </form>
+                                    </div>
+                                </article>
+                                <% }} %>
+                                    <div class="cont-flechas">
+                                        <div class="flechas">
+                                            <i class="fas fa-angle-left"></i>
+                                            <i class="fas fa-angle-right"></i>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <%- include('../partials/footer')%>
+    </body>
+
+    </html>

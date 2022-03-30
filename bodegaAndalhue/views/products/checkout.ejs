@@ -1,0 +1,40 @@
+<%- include('../partials/head', {title: 'Compra exitosa'})%>
+    <link rel="stylesheet" href="/stylesheets/carrito.css">
+
+    <body>
+        <%- include('../partials/header')%>
+            <main class="contenedor">
+                <h1 class="titulo-seccion">Compra finalizada</h1>
+                <section class="usuario-menu">
+                    <ul class="menuUser">
+                        <% if(typeof usuario != "undefined"){ %>
+                            <li>
+                                <a href="" id="loginAccess">
+                                    <i class="fas fa-user"></i>
+                                    <%= usuario.first_name %>
+                                </a>
+                                <ul class="submenuUser">
+                                    <li>
+                                        <a href="/users/profile/<%= usuario.id %>">
+                                            <hr>mi perfil</a>
+                                    </li>
+                                    <li>
+                                        <a href="/users/logout">
+                                            <hr>cerrar sesión</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <% } %>
+                    </ul>
+
+                </section>
+                <div class="mensaje">
+                    <h2><%= usuario.first_name %>, muchas gracias por tu compra!</h2>
+                    <a href="/"> <button  class="centrado btn-border-max"><< volver a la Tienda</button></a>
+                </div>
+
+            </main>
+            <%- include('../partials/footer')%>
+    </body>
+
+    </html>
